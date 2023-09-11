@@ -1,0 +1,45 @@
+{
+	"version": "1.0.0",
+	"description": "Easily index WordPress posts to different search service providers",
+	"private": true,
+	"main": "webpack.config.js",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/amartya-dev/search-indexer-plugin.git"
+	},
+	"author": "Amartya Gaur <amarkaushik1999@gmail.com>",
+	"license": "GPL-2.0+",
+	"bugs": {
+		"url": "https://github.com/amartya-dev/search-indexer-plugin/issues"
+	},
+	"homepage": "https://github.com/amartya-dev/search-indexer-plugin#readme",
+	"devDependencies": {
+		"@reduxjs/toolkit": "^1.9.5",
+		"@tailwindcss/forms": "^0.5.4",
+		"tailwindcss": "^3.3.3",
+		"@wordpress/env": "^8.6.0",
+		"@wordpress/eslint-plugin": "^15.0.0",
+		"@wordpress/prettier-config": "^2.23.0",
+		"@wordpress/scripts": "^26.11.0",
+		"watch": "^1.0.2",
+		"webpack-merge": "^5.9.0"
+	},
+	"scripts": {
+		"build": "yarn run generate:css && wp-scripts build ./src/search-indexer-plugin.js",
+		"format": "wp-scripts format ./src",
+		"generate:css": "tailwindcss -i ./assets/styles/app.css -o ./src/styles/search-indexer-plugin.css",
+		"lint:js": "wp-scripts lint-js ./src",
+		"lint:js:fix": "wp-scripts lint-js ./src --fix",
+		"start": "wp-scripts start ./src/search-indexer-plugin.js",
+		"watch": "yarn run generate:css && watch 'yarn run generate:css' ./src ./assets"
+	},
+	"dependencies": {
+		"@wordpress/api-fetch": "^6.37.0",
+		"@wordpress/element": "^5.17.0",
+		"@wordpress/i18n": "^4.41.0",
+		"react-router-dom": "^6.15.0"
+	},
+	"watch": {
+		"test": ""
+	}
+}
