@@ -10,6 +10,9 @@ use SearchIndexerPlugin\Repositories\IndexRepository;
  * Set up the listeners for posts in WordPress to auto-index
  */
 class SetupListeners {
+	/**
+	 * Initialize the post listeners
+	 */
 	public function __construct() {
 		\add_action(
 			'plugins_loaded',
@@ -26,10 +29,10 @@ class SetupListeners {
 						$index_instance = $index_repository->get( $default_index );
 					} else {
 						$index_instance = new $available_indexes[ $default_index ]['index_class']();
-                        $index_repository->add( $default_index, $index_instance );
+						$index_repository->add( $default_index, $index_instance );
 					}
-                    // Listen to the post changes now
-                    new PostChangeListener( $index_instance );
+					// Listen to the post changes now
+					new PostChangeListener( $index_instance );
 				}
 			}
 		);

@@ -11,6 +11,10 @@ if ( ! defined( 'SEARCH_INDEXER_PLUGIN_TYPESENSE_SETTINGS_OPTION' ) ) {
 	define( 'SEARCH_INDEXER_PLUGIN_TYPESENSE_SETTINGS_OPTION', 'sip-typesense-settings' );
 }
 
+if ( ! defined( 'SEARCH_INDEXER_PLUGIN_MEILI_SETTINGS_OPTION' ) ) {
+	define( 'SEARCH_INDEXER_PLUGIN_MEILI_SETTINGS_OPTION', 'sip-meili-settings' );
+}
+
 if ( ! defined( 'SEARCH_INDEXER_PLUGIN_DEFAULT_INDEXER_OPTION' ) ) {
 	define( 'SEARCH_INDEXER_PLUGIN_DEFAULT_INDEXER_OPTION', 'sip-default-indexer' );
 }

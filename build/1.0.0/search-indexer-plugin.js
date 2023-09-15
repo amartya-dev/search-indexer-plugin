@@ -81,6 +81,170 @@ function App() {
 
 /***/ }),
 
+/***/ "./src/components/MeiliSearchSettings.js":
+/*!***********************************************!*\
+  !*** ./src/components/MeiliSearchSettings.js ***!
+  \***********************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   MeiliSearchSettings: function() { return /* binding */ MeiliSearchSettings; }
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _common_TextInput__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./common/TextInput */ "./src/components/common/TextInput.js");
+/* harmony import */ var _common_PasswordInput__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./common/PasswordInput */ "./src/components/common/PasswordInput.js");
+/* harmony import */ var _common_LoadingButton__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./common/LoadingButton */ "./src/components/common/LoadingButton.js");
+/* harmony import */ var _utils_apiCall__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/apiCall */ "./src/utils/apiCall.js");
+/* harmony import */ var _utils_api__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/api */ "./src/utils/api.js");
+
+
+
+
+
+
+
+const indexType = 'meilisearch';
+const MeiliSearchSettings = () => {
+  const [connectionDetails, setConnectionDetails] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)({
+    host: '',
+    apiKey: ''
+  });
+  const [indexName, setIndexName] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  const [saveLoading, setSaveLoading] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [makeDefaultLoading, setMakeDefaultLoading] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [reIndexLoading, setReIndexLoading] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [isDefault, setIsDefault] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [availableIndices, setAvailableIndices] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  const getIndexSettings = async () => {
+    const response = await (0,_utils_apiCall__WEBPACK_IMPORTED_MODULE_4__.apiCall)({
+      apiCallFunc: (0,_utils_api__WEBPACK_IMPORTED_MODULE_5__.SearchPluginIndexerAPIs)().index.getIndexSettings,
+      apiCallParams: indexType
+    });
+    if (!response.failed && Object.keys(response.settings).length !== 0) {
+      setConnectionDetails(response.settings.connection);
+      setIndexName(response.settings.index_name);
+    }
+  };
+  const getIsDefault = async () => {
+    const response = await (0,_utils_apiCall__WEBPACK_IMPORTED_MODULE_4__.apiCall)({
+      apiCallFunc: (0,_utils_api__WEBPACK_IMPORTED_MODULE_5__.SearchPluginIndexerAPIs)().index.getDefaultIndex
+    });
+    setIsDefault(response.default && response.default === indexType);
+  };
+  const getAllIndexes = async () => {
+    const response = await (0,_utils_apiCall__WEBPACK_IMPORTED_MODULE_4__.apiCall)({
+      apiCallFunc: (0,_utils_api__WEBPACK_IMPORTED_MODULE_5__.SearchPluginIndexerAPIs)().index.getAllIndexes,
+      apiCallParams: indexType
+    });
+    if (!response.failed) {
+      setAvailableIndices(response.indexes);
+    }
+  };
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    getIndexSettings();
+    getIsDefault();
+    getAllIndexes();
+  }, []);
+  const updateIndexSettings = async () => {
+    setSaveLoading(true);
+    await (0,_utils_apiCall__WEBPACK_IMPORTED_MODULE_4__.apiCall)({
+      apiCallFunc: (0,_utils_api__WEBPACK_IMPORTED_MODULE_5__.SearchPluginIndexerAPIs)().index.saveIndexSettings,
+      apiCallParams: {
+        index_name: indexType,
+        settings: {
+          index_name: indexName,
+          connection: connectionDetails
+        }
+      }
+    });
+    setSaveLoading(false);
+    window.location.reload();
+  };
+  const makeDefault = async () => {
+    setMakeDefaultLoading(true);
+    await (0,_utils_apiCall__WEBPACK_IMPORTED_MODULE_4__.apiCall)({
+      apiCallFunc: (0,_utils_api__WEBPACK_IMPORTED_MODULE_5__.SearchPluginIndexerAPIs)().index.setDefaultIndex,
+      apiCallParams: indexType
+    });
+    setMakeDefaultLoading(false);
+    await getIsDefault();
+    window.location.reload();
+  };
+  const reIndex = async () => {
+    setReIndexLoading(true);
+    await (0,_utils_apiCall__WEBPACK_IMPORTED_MODULE_4__.apiCall)({
+      apiCallFunc: (0,_utils_api__WEBPACK_IMPORTED_MODULE_5__.SearchPluginIndexerAPIs)().index.reIndex,
+      apiCallParams: indexType
+    });
+    setReIndexLoading(false);
+    window.location.reload();
+  };
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "flex justify-center items-center mt-8"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "w-5/6"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
+    className: "text-2xl mb-4"
+  }, "Connection Settings"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "mb-6"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_common_TextInput__WEBPACK_IMPORTED_MODULE_1__.TextInput, {
+    id: "typesense-host-input",
+    label: "Host",
+    value: connectionDetails.host,
+    onChange: event => {
+      setConnectionDetails({
+        ...connectionDetails,
+        host: event.target.value
+      });
+    }
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "mb-6"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_common_PasswordInput__WEBPACK_IMPORTED_MODULE_2__.PasswordInput, {
+    id: "typesense-api-key-input",
+    label: "Api Key",
+    value: connectionDetails.apiKey,
+    onChange: event => {
+      setConnectionDetails({
+        ...connectionDetails,
+        apiKey: event.target.value
+      });
+    }
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
+    className: "text-2xl mb-4"
+  }, "Index specific settings"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_common_TextInput__WEBPACK_IMPORTED_MODULE_1__.TextInput, {
+    id: "typesense-index-input",
+    label: "Index Name",
+    value: indexName,
+    onChange: event => {
+      setIndexName(event.target.value);
+    }
+  }), availableIndices.length >= 0 && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
+    className: "text-2xl mt-4"
+  }, "Available Indices"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", {
+    className: "list-disc ml-4"
+  }, availableIndices.map(availableIndex => {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+      className: "text-md",
+      key: availableIndex.uid
+    }, 'Name: '.concat(availableIndex.uid));
+  }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "mt-8"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_common_LoadingButton__WEBPACK_IMPORTED_MODULE_3__.LoadingButton, {
+    loading: saveLoading,
+    onSubmit: updateIndexSettings
+  }, "Save"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_common_LoadingButton__WEBPACK_IMPORTED_MODULE_3__.LoadingButton, {
+    loading: reIndexLoading,
+    onSubmit: reIndex
+  }, "Re-Index"), !isDefault && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_common_LoadingButton__WEBPACK_IMPORTED_MODULE_3__.LoadingButton, {
+    loading: makeDefaultLoading,
+    onSubmit: makeDefault
+  }, "Make Default"))));
+};
+
+/***/ }),
+
 /***/ "./src/components/Settings.js":
 /*!************************************!*\
   !*** ./src/components/Settings.js ***!
@@ -94,6 +258,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _TypeSenseSettings__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TypeSenseSettings */ "./src/components/TypeSenseSettings.js");
+/* harmony import */ var _MeiliSearchSettings__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./MeiliSearchSettings */ "./src/components/MeiliSearchSettings.js");
+
 
 
 
@@ -105,7 +271,7 @@ const IndexTabs = () => {
     },
     meili: {
       name: 'Meili Search',
-      component: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null)
+      component: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_MeiliSearchSettings__WEBPACK_IMPORTED_MODULE_2__.MeiliSearchSettings, null)
     },
     algolia: {
       name: 'Algolia',
@@ -171,6 +337,7 @@ const TypeSenseSettings = () => {
   const [indexName, setIndexName] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)('');
   const [saveLoading, setSaveLoading] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const [makeDefaultLoading, setMakeDefaultLoading] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [reIndexLoading, setReIndexLoading] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const [isDefault, setIsDefault] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const [availableIndices, setAvailableIndices] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const getIndexSettings = async () => {
@@ -226,6 +393,15 @@ const TypeSenseSettings = () => {
     });
     setMakeDefaultLoading(false);
     await getIsDefault();
+    window.location.reload();
+  };
+  const reIndex = async () => {
+    setReIndexLoading(true);
+    await (0,_utils_apiCall__WEBPACK_IMPORTED_MODULE_4__.apiCall)({
+      apiCallFunc: (0,_utils_api__WEBPACK_IMPORTED_MODULE_5__.SearchPluginIndexerAPIs)().index.reIndex,
+      apiCallParams: indexType
+    });
+    setReIndexLoading(false);
     window.location.reload();
   };
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -302,7 +478,8 @@ const TypeSenseSettings = () => {
     loading: saveLoading,
     onSubmit: updateIndexSettings
   }, "Save"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_common_LoadingButton__WEBPACK_IMPORTED_MODULE_3__.LoadingButton, {
-    loading: false
+    loading: reIndexLoading,
+    onSubmit: reIndex
   }, "Re-Index"), !isDefault && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_common_LoadingButton__WEBPACK_IMPORTED_MODULE_3__.LoadingButton, {
     loading: makeDefaultLoading,
     onSubmit: makeDefault
@@ -498,6 +675,15 @@ const SearchPluginIndexerAPIs = () => {
       setDefaultIndex: async indexType => {
         return await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default()({
           path: INDEX_BASE.concat('/default'),
+          method: 'POST',
+          data: {
+            index_name: indexType
+          }
+        });
+      },
+      reIndex: async indexType => {
+        return await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default()({
+          path: INDEX_BASE.concat('/re-index'),
           method: 'POST',
           data: {
             index_name: indexType

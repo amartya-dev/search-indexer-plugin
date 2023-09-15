@@ -1,5 +1,6 @@
 import { useState } from '@wordpress/element';
 import { TypeSenseSettings } from './TypeSenseSettings';
+import { MeiliSearchSettings } from './MeiliSearchSettings';
 
 const IndexTabs = () => {
 	const tabs = {
@@ -9,7 +10,7 @@ const IndexTabs = () => {
 		},
 		meili: {
 			name: 'Meili Search',
-			component: <></>,
+			component: <MeiliSearchSettings />,
 		},
 		algolia: {
 			name: 'Algolia',

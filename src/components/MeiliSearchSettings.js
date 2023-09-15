@@ -5,13 +5,11 @@ import { LoadingButton } from './common/LoadingButton';
 import { apiCall } from '../utils/apiCall';
 import { SearchPluginIndexerAPIs } from '../utils/api';
 
-const indexType = 'typesense';
+const indexType = 'meilisearch';
 
-export const TypeSenseSettings = () => {
+export const MeiliSearchSettings = () => {
 	const [ connectionDetails, setConnectionDetails ] = useState( {
 		host: '',
-		port: '',
-		protocol: '',
 		apiKey: '',
 	} );
 	const [ indexName, setIndexName ] = useState( '' );
@@ -97,7 +95,7 @@ export const TypeSenseSettings = () => {
 			<div className="w-5/6">
 				{ /* Connection Settings */ }
 				<h2 className="text-2xl mb-4">Connection Settings</h2>
-				<div className="grid gap-6 mb-4 grid-cols-3">
+				<div className="mb-6">
 					<TextInput
 						id="typesense-host-input"
 						label="Host"
@@ -106,28 +104,6 @@ export const TypeSenseSettings = () => {
 							setConnectionDetails( {
 								...connectionDetails,
 								host: event.target.value,
-							} );
-						} }
-					/>
-					<TextInput
-						id="typesense-port-input"
-						label="Port"
-						value={ connectionDetails.port }
-						onChange={ ( event ) => {
-							setConnectionDetails( {
-								...connectionDetails,
-								port: event.target.value,
-							} );
-						} }
-					/>
-					<TextInput
-						id="typesense-protocol-input"
-						label="Protocol"
-						value={ connectionDetails.protocol }
-						onChange={ ( event ) => {
-							setConnectionDetails( {
-								...connectionDetails,
-								protocol: event.target.value,
 							} );
 						} }
 					/>
@@ -162,12 +138,10 @@ export const TypeSenseSettings = () => {
 								return (
 									<li
 										className="text-md"
-										key={ availableIndex.name }
+										key={ availableIndex.uid }
 									>
 										{ 'Name: '.concat(
-											availableIndex.name,
-											' Documents: ',
-											availableIndex.num_documents
+											availableIndex.uid
 										) }
 									</li>
 								);

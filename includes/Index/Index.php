@@ -49,9 +49,13 @@ abstract class Index {
 	 */
 	public static function supported_indexes() {
 		return array(
-			'typesense' => array(
+			'typesense'   => array(
 				'settings_option' => SEARCH_INDEXER_PLUGIN_TYPESENSE_SETTINGS_OPTION,
 				'index_class'     => 'SearchIndexerPlugin\\Index\\TypeSenseIndex',
+			),
+			'meilisearch' => array(
+				'settings_option' => SEARCH_INDEXER_PLUGIN_MEILI_SETTINGS_OPTION,
+				'index_class'     => 'SearchIndexerPlugin\\Index\\MeiliSearchIndex',
 			),
 		);
 	}
@@ -59,7 +63,7 @@ abstract class Index {
 	/**
 	 * Push records
 	 *
-	 * @param int           $page          The page
+	 * @param int           $page           The page
 	 * @param int           $per_page       Number of records per page
 	 * @param callable|null $batch_callback The batch callback (optional)
 	 *

@@ -40,6 +40,15 @@ export const SearchPluginIndexerAPIs = () => {
 					},
 				} );
 			},
+			reIndex: async ( indexType ) => {
+				return await apiFetch( {
+					path: INDEX_BASE.concat( '/re-index' ),
+					method: 'POST',
+					data: {
+						index_name: indexType,
+					},
+				} );
+			},
 		},
 	};
 };
