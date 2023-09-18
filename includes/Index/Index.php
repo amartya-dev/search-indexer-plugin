@@ -73,7 +73,7 @@ abstract class Index {
 		$records_provider  = $this->get_records_provider();
 		$total_pages_count = $records_provider->get_total_pages_count( $per_page );
 
-		$records = $records_provider->getRecords( $page, $per_page );
+		$records = $records_provider->get_records( $page, $per_page );
 		if ( count( $records ) > 0 ) {
 			$this->add_documents_by_records( $records );
 		}

@@ -4,7 +4,6 @@ namespace SearchIndexerPlugin\Index;
 
 use SearchIndexerPlugin\Records\WpPostsRecordsProvider;
 use Meilisearch\Client;
-use Meilisearch\Contracts\IndexesQuery;
 
 /**
  * The MeiliSearch Index.
@@ -148,7 +147,18 @@ class MeiliSearchIndex extends Index {
 	 * Get all the available collections
 	 */
 	public function get_all_indexes() {
-		return $this->client->getIndexes( new IndexesQuery() );
+		$indexes = $this->client->getIndexes()->getResults();
+		$results = array();
+		foreach ( $indexes as $index ) {
+			array_push(
+				$results,
+				array(
+					'uid'           => $index->fetchRawInfo()['uid'],
+					'num_documents' => $index->stats()['numberOfDocuments'],
+				)
+			);
+		}
+		return $results;
 	}
 
 	/**

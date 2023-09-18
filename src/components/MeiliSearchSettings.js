@@ -141,7 +141,9 @@ export const MeiliSearchSettings = () => {
 										key={ availableIndex.uid }
 									>
 										{ 'Name: '.concat(
-											availableIndex.uid
+											availableIndex.uid,
+											' Documents: ',
+											availableIndex.num_documents
 										) }
 									</li>
 								);

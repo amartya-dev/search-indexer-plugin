@@ -258,13 +258,17 @@ class IndexController extends \WP_REST_Controller {
 		$index_name        = $request->get_param( 'index_name' );
 		if ( array_key_exists( $index_name, $available_indexes ) ) {
 			$index_instance = new $available_indexes[ $index_name ]['index_class']();
-			$index_instance->re_index();
-			return rest_ensure_response(
-				array(
-					'status'  => 200,
-					'message' => 'Re-Indexed',
-				)
-			);
+			try {
+				$response = $index_instance->re_index();
+				return rest_ensure_response(
+					array(
+						'status'   => 200,
+						'response' => $response,
+					)
+				);
+			} catch ( \Exception $exception ) {
+				return new \WP_Error( $exception->getMessage(), 'something went wrong', array( 'status' => 500 ) );
+			}
 		}
 		return new \WP_Error( 'invalid_index', 'Invalid index type', array( 'status' => 404 ) );
 	}

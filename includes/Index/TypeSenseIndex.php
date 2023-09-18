@@ -141,9 +141,10 @@ class TypeSenseIndex extends Index {
 	 * Clear the index i.e. delete all documents for this index
 	 */
 	public function clear() {
-		$this->get_collection()->documents->delete(
-			array( 'filter_by' => 'id:>0' )
+		$response = $this->get_collection()->documents->delete(
+			array( 'filter_by' => 'comment_count:>=0' )
 		);
+		return $response;
 	}
 
 	/**
