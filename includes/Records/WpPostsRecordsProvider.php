@@ -43,12 +43,12 @@ class WpPostsRecordsProvider extends WpRecordsProvider {
 		$menu_order        = absint( $post->menu_order );
 
 		if ( function_exists( 'get_field' ) ) {
-			$likes_value = get_field( 'likes' );
+			$likes_value = get_field( 'likes', $post->ID );
 			if ( $likes_value ) {
 				$post_likes = $likes_value;
 			}
 
-			$dislikes_value = get_field( 'dislikes' );
+			$dislikes_value = get_field( 'dislikes', $post->ID );
 			if ( $dislikes_value ) {
 				$post_dislikes = $dislikes_value;
 			}
