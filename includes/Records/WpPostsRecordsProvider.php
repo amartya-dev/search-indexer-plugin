@@ -35,10 +35,24 @@ class WpPostsRecordsProvider extends WpRecordsProvider {
 		$post_date_gmt     = $post->post_date_gmt;
 		$post_modified     = $post->post_modified;
 		$post_modified_gmt = $post->post_modified_gmt;
+		$post_likes        = 0;
+		$post_dislikes     = 0;
 		$comment_count     = absint( $post->comment_count );
 		$comment_status    = absint( $post->comment_status );
 		$ping_status       = absint( $post->ping_status );
 		$menu_order        = absint( $post->menu_order );
+
+		if ( function_exists( 'get_field' ) ) {
+			$likes_value = get_field( 'likes' );
+			if ( $likes_value ) {
+				$post_likes = $likes_value;
+			}
+
+			$dislikes_value = get_field( 'dislikes' );
+			if ( $dislikes_value ) {
+				$post_dislikes = $dislikes_value;
+			}
+		}
 
 		$record = array(
 			'id'                => strval( $post->ID ),
@@ -57,6 +71,8 @@ class WpPostsRecordsProvider extends WpRecordsProvider {
 			'post_parent'       => $post->post_parent,
 			'post_type'         => $post->post_type,
 			'post_mime_type'    => $post->post_mime_type,
+			'post_likes'        => $post_likes,
+			'post_dislikes'     => $post_dislikes,
 			'permalink'         => get_permalink( $post->ID ),
 			'comment_count'     => $comment_count,
 			'comment_status'    => $comment_status,
