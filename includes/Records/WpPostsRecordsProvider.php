@@ -42,6 +42,7 @@ class WpPostsRecordsProvider extends WpRecordsProvider {
 		$ping_status       = absint( $post->ping_status );
 		$menu_order        = absint( $post->menu_order );
 
+		// Get ACF likes and dislikes
 		if ( function_exists( 'get_field' ) ) {
 			$likes_value = get_field( 'likes', $post->ID );
 			if ( $likes_value ) {
@@ -54,6 +55,12 @@ class WpPostsRecordsProvider extends WpRecordsProvider {
 			}
 		}
 
+		$post_categories = get_the_category( $post->ID );
+		$categories      = array();
+		foreach ( $post_categories as $post_category ) {
+			array_push( $categories, $post_category->name );
+		}
+
 		$record = array(
 			'id'                => strval( $post->ID ),
 			'post_author'       => $user_data,
@@ -64,6 +71,7 @@ class WpPostsRecordsProvider extends WpRecordsProvider {
 			'post_content'      => $this->prepare_text_context(
 				\apply_filters( 'the_content', $post->post_content )
 			),
+			'post_category'     => join( ',', $categories ),
 			'post_status'       => $post->post_status,
 			'post_name'         => $post->post_name,
 			'post_modified'     => $post_modified,
